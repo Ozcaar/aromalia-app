@@ -2,7 +2,12 @@ package com.ozcaar.aromalia.Models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,59 +16,81 @@ public class ProductoModel {
 
     @Id
     @Column(unique = true, nullable = false)
-    private long id_producto;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(unique = true, nullable = false)
-    private long sku;
-
-    @Column(nullable = false)
-    private String nombre_producto;
+    @Column(unique = true)
+    private String sku;
 
     @Column(nullable = false)
-    private String descripcion;
+    private String nombre;
 
     @Column(nullable = false)
-    private String alto;
-
-    @Column(nullable = false)
-    private String ancho;
-
-    @Column(nullable = false)
-    private Float peso;
+    private Long stock;
 
     @Column(nullable = false)
     private Float precio;
 
     @Column(nullable = false)
+    private String descripcion;
+
+    @Column()
+    private String alto;
+
+    @Column()
+    private String ancho;
+
+    @Column()
+    private String peso;
+
+    @Column()
     private String image_url;
 
-    @Column(nullable = false)
-    private Long id_categoria;
+    @ManyToOne
+    // @JoinColumn(name = "id_categoria", unique = true, nullable = false)
+    @JoinColumn(name = "id_categoria")
+    private CategoriaModel categoria;
 
     // Getters & Setters
 
-    public long getId_producto() {
-        return id_producto;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_producto(long id_producto) {
-        this.id_producto = id_producto;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public long getSku() {
+    public String getSku() {
         return sku;
     }
 
-    public void setSku(long sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 
-    public String getNombre_producto() {
-        return nombre_producto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombre_producto(String nombre_producto) {
-        this.nombre_producto = nombre_producto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Long getStock() {
+        return stock;
+    }
+
+    public void setStock(Long stock) {
+        this.stock = stock;
+    }
+
+    public Float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Float precio) {
+        this.precio = precio;
     }
 
     public String getDescripcion() {
@@ -90,20 +117,12 @@ public class ProductoModel {
         this.ancho = ancho;
     }
 
-    public Float getPeso() {
+    public String getPeso() {
         return peso;
     }
 
-    public void setPeso(Float peso) {
+    public void setPeso(String peso) {
         this.peso = peso;
-    }
-
-    public Float getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Float precio) {
-        this.precio = precio;
     }
 
     public String getImage_url() {
@@ -114,12 +133,32 @@ public class ProductoModel {
         this.image_url = image_url;
     }
 
-    public Long getId_categoria() {
-        return id_categoria;
+    public CategoriaModel getCategoria() {
+        return categoria;
     }
 
-    public void setId_categoria(Long id_categoria) {
-        this.id_categoria = id_categoria;
+    public void setCategoria(CategoriaModel categoria) {
+        this.categoria = categoria;
     }
 
+    // Método que se ejecutará antes de persistir el producto en la base de datos
+    @PostPersist
+    public void postPersist() {
+        // Genera el SKU basado en el ID del producto
+        this.sku = generateSKU();
+
+        if (this.categoria == null) {
+            this.categoria = new CategoriaModel();
+            this.categoria.setId(1L);
+        }
+
+        if (this.stock == null) {
+            this.stock = 0L;
+        }
+    }
+
+    // Método para generar el SKU
+    private String generateSKU() {
+        return String.format("%08d", this.id);
+    }
 }
