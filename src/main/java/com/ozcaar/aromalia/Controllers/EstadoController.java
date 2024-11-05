@@ -36,7 +36,7 @@ public class EstadoController {
     }
 
     @GetMapping(path = "/{ïd}")
-    public Optional<EstadoModel> getEstado(@PathVariable Long id) {
+    public Optional<EstadoModel> getEstado(@PathVariable("id") Long id) {
         return estadoService.getEstado(id);
     }
 
@@ -54,7 +54,7 @@ public class EstadoController {
 
     // DELETE
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteEstado(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEstado(@PathVariable("id") Long id) {
         try {
             estadoService.deleteEstadoID(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Estado eliminado exitosamente.");

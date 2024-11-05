@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ozcaar.aromalia.Models.DetalleModel;
 import com.ozcaar.aromalia.Models.VentaModel;
 import com.ozcaar.aromalia.Services.VentaService;
 
@@ -35,9 +36,14 @@ public class VentaController {
         return (ArrayList<VentaModel>) ventaService.getVentas();
     }
 
-    @GetMapping(path = "/{ïd}")
-    public Optional<VentaModel> getVenta(@PathVariable Long id) {
+    @GetMapping(path = "/{id}")
+    public Optional<VentaModel> getVenta(@PathVariable("id") Long id) {
         return (Optional<VentaModel>) ventaService.getVenta(id);
+    }
+
+    @GetMapping(path = "/pedido/{id}")
+    public VentaModel getVentaPedido(@PathVariable("id") Long id) {
+        return ventaService.getVentaPedido(id);
     }
 
     // POST
@@ -54,7 +60,7 @@ public class VentaController {
 
     // DELETE
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteVenta(@PathVariable Long id) {
+    public ResponseEntity<String> deleteVenta(@PathVariable("id") Long id) {
         try {
             ventaService.deleteVentaID(id);
             return ResponseEntity.status(HttpStatus.OK).build();

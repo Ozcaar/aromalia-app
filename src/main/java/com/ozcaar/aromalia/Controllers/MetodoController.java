@@ -36,7 +36,7 @@ public class MetodoController {
     }
 
     @GetMapping(path = "/{ïd}")
-    public Optional<MetodoModel> getMetodo(@PathVariable Long id) {
+    public Optional<MetodoModel> getMetodo(@PathVariable("id") Long id) {
         return metodoService.getMetodo(id);
     }
 
@@ -54,7 +54,7 @@ public class MetodoController {
 
     // DELETE
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteMetodo(@PathVariable Long id) {
+    public ResponseEntity<String> deleteMetodo(@PathVariable("id") Long id) {
         try {
             metodoService.deleteMetodoID(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Método de pago eliminado exitosamente.");

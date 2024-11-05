@@ -27,8 +27,12 @@ public class VentaModel {
     @Column(nullable = true)
     private LocalDate fecha;
 
-    @Column(nullable = false)
-    private Float total;
+    // @Column(nullable = false)
+    // private Float total;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pedido")
+    private PedidoModel pedido;
 
     @ManyToOne
     @JoinColumn(name = "metodo_pago")
@@ -60,12 +64,12 @@ public class VentaModel {
         this.fecha = fecha;
     }
 
-    public Float getTotal() {
-        return total;
+    public PedidoModel getPedido() {
+        return pedido;
     }
 
-    public void setTotal(Float total) {
-        this.total = total;
+    public void setPedido(PedidoModel pedido) {
+        this.pedido = pedido;
     }
 
     public MetodoModel getMetodo() {

@@ -44,7 +44,7 @@ public class ProductoModel {
     private String peso;
 
     @Column()
-    private String image_url;
+    private String image;
 
     @ManyToOne
     // @JoinColumn(name = "id_categoria", unique = true, nullable = false)
@@ -125,12 +125,12 @@ public class ProductoModel {
         this.peso = peso;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImage() {
+        return image;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public CategoriaModel getCategoria() {

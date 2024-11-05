@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.ozcaar.aromalia.Models.DetalleModel;
 import com.ozcaar.aromalia.Models.VentaModel;
 import com.ozcaar.aromalia.Repositories.VentaRepository;
 
@@ -32,9 +33,12 @@ public class VentaService {
         return (ArrayList<VentaModel>) ventaRepository.findAll();
     }
 
-    @GetMapping(path = "/{id}")
     public Optional<VentaModel> getVenta(Long id) {
         return (Optional<VentaModel>) ventaRepository.findById(id);
+    }
+
+    public VentaModel getVentaPedido(Long idPedido) {
+        return ventaRepository.findByPedidoId(idPedido);
     }
 
     // POST

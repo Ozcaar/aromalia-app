@@ -38,7 +38,7 @@ public class CategoriaController {
     }
 
     @GetMapping(path = "/{ïd}")
-    public Optional<CategoriaModel> getCategoria(@RequestParam Long id) {
+    public Optional<CategoriaModel> getCategoria(@PathVariable("id") Long id) {
         return categoriaService.getCategoria(id);
     }
 
@@ -56,7 +56,7 @@ public class CategoriaController {
 
     // DELETE
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id) {
         try {
             categoriaService.deleteCategoriaID(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Categoría eliminada exitosamente.");

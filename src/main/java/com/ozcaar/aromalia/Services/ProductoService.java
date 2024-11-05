@@ -16,6 +16,9 @@ import com.ozcaar.aromalia.Repositories.ProductoRepository;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
+
 @Service
 @Transactional
 public class ProductoService {
@@ -45,6 +48,23 @@ public class ProductoService {
     @PostMapping(path = "/saveBatch")
     public List<ProductoModel> saveProductos(List<ProductoModel> productos) {
         return (List<ProductoModel>) productoRepository.saveAll(productos);
+    }
+
+    // PUT
+
+    public ProductoModel updateProducto(Long id, ProductoModel updatedProducto) {
+        Optional<ProductoModel> existingProduct = productoRepository.findById(id);
+
+        if (existingProduct.isPresent()) {
+            ProductoModel productToUpdate = existingProduct.get();
+            // Actualizamos solo el stock del producto
+            productToUpdate.setStock(updatedProducto.getStock());
+
+            // Guardamos el producto actualizado en la base de datos
+            return productoRepository.save(productToUpdate);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado con el id: " + id);
+        }
     }
 
     // DELETE
